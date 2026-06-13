@@ -1,49 +1,31 @@
-# GlassIt-VSC
+# TransparentVSC
 
-[![VSMV]][VSM]
-[![VSMI]][VSM]
-[![VSMR]][VSM]
+Set your VS Code window transparency on **Windows** and **Linux**.
 
-VS Code Extension to set window to transparent on Windows and Linux platforms.
+Maintained fork of [GlassIt-VSC](https://github.com/hikarin522/GlassIt-VSC) by hikarin522, with active bug fixes and maintenance.
 
-This extension is the VS Code version of [GlassIt] of Sublime Text plugin.
+## Changes vs. GlassIt-VSC
 
-## Features
+- **Fixed:** Unicode characters in Windows user profile paths (e.g. `ä`, `ö`, `ü`) caused `Add-Type` to fail with a malformed path. Paths are now encoded as UTF-16LE Base64 before being passed to PowerShell. ([Original issue #83](https://github.com/hikarin522/GlassIt-VSC/issues/83))
 
-* With this extension, you can change the window transparency by key pressing.
+## Keybindings
 
-## Requirements
+| Shortcut | Action |
+|---|---|
+| `Ctrl+Alt+Z` | Increase transparency |
+| `Ctrl+Alt+C` | Decrease transparency |
+| `Ctrl+Alt+X` | Minimize transparency (opaque) |
 
-### Windows
-  - Windows 7 or higher
-### Linux
-  - Xorg display server
-  - [xprop] package.
+Commands are also available via `Ctrl+Shift+P` → `TransparentVSC: ...`
 
-## Usage
+## Settings
 
-Change the transparency level by:
-* Press "ctrl+alt+z" to increase the transparency, "ctrl+alt+c" to decrease.
+| Setting | Default | Description |
+|---|---|---|
+| `transparentvsc.alpha` | `220` | Transparency level (1–255) |
+| `transparentvsc.step` | `5` | Step per keypress |
+| `transparentvsc.force_sway` | `false` | Force swaymsg on Linux/Sway |
 
-## Extension Settings
+## Credits
 
-* `glassit.alpha` (`integer`): Transparency level [1-255].
-* `glassit.step` (`integer`): Increment of alpha.
-
-## LINK
-
-* <https://marketplace.visualstudio.com/items?itemName=s-nlf-fh.glassit>
-* <https://github.com/hikarin522/GlassIt-VSC>
-* <https://packagecontrol.io/packages/GlassIt>
-* <https://github.com/ivellioscolin/sublime-plugin-glassit>
-
-## Changelog
-
-See CHANGELOG.md
-
-[VSM]:https://marketplace.visualstudio.com/items?itemName=s-nlf-fh.glassit
-[VSMV]:https://img.shields.io/visual-studio-marketplace/v/s-nlf-fh.glassit
-[VSMI]:https://img.shields.io/visual-studio-marketplace/i/s-nlf-fh.glassit
-[VSMR]:https://img.shields.io/visual-studio-marketplace/r/s-nlf-fh.glassit
-[GlassIt]:https://packagecontrol.io/packages/GlassIt
-[xprop]:https://www.x.org/releases/X11R7.5/doc/man/man1/xprop.1.html
+Based on [GlassIt-VSC](https://github.com/hikarin522/GlassIt-VSC) — Copyright (c) hikarin522, MIT License.

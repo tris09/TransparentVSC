@@ -1,9 +1,9 @@
 {
-  "name": "glassit",
-  "displayName": "GlassIt-VSC",
-  "description": "VS Code Extension to set window to transparent on Windows and Linux platforms.",
-  "version": "0.2.6",
-  "publisher": "s-nlf-fh",
+  "name": "transparentvsc",
+  "displayName": "TransparentVSC",
+  "description": "Set VS Code window transparency on Windows and Linux. Maintained fork of GlassIt-VSC with Unicode path support.",
+  "version": "0.3.0",
+  "publisher": "tris09",
   "license": "MIT",
   "engines": {
     "vscode": "^1.40.0"
@@ -17,28 +17,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/hikarin522/GlassIt-VSC.git"
+    "url": "https://github.com/tris09/TransparentVSC.git"
   },
-  "badges": [
-    {
-      "url": "https://img.shields.io/visual-studio-marketplace/v/s-nlf-fh.glassit",
-      "description": "Version",
-      "href": "https://marketplace.visualstudio.com/items?itemName=s-nlf-fh.glassit"
-    },
-    {
-      "url": "https://img.shields.io/visual-studio-marketplace/i/s-nlf-fh.glassit",
-      "description": "Installs",
-      "href": "https://marketplace.visualstudio.com/items?itemName=s-nlf-fh.glassit"
-    },
-    {
-      "url": "https://img.shields.io/visual-studio-marketplace/r/s-nlf-fh.glassit",
-      "description": "Rating",
-      "href": "https://marketplace.visualstudio.com/items?itemName=s-nlf-fh.glassit"
-    }
-  ],
   "bugs": {
-    "url": "https://github.com/hikarin522/GlassIt-VSC/issues",
-    "email": "hikarin522@outlook.jp"
+    "url": "https://github.com/tris09/TransparentVSC/issues"
   },
   "activationEvents": [
     "*"
@@ -46,54 +28,54 @@
   "main": "./extension",
   "contributes": {
     "configuration": {
-      "title": "GlassIt VSC configuration",
+      "title": "TransparentVSC",
       "properties": {
-        "glassit.alpha": {
+        "transparentvsc.alpha": {
           "type": "integer",
           "default": 220,
           "description": "Transparency level [1-255]"
         },
-        "glassit.step": {
+        "transparentvsc.step": {
           "type": "integer",
           "default": 5,
-          "description": "Increment of alpha"
+          "description": "Increment of alpha per keypress"
         },
-        "glassit.force_sway": {
+        "transparentvsc.force_sway": {
           "type": "boolean",
           "default": false,
-          "description": "Force using swaymsg to set transparency"
+          "description": "Force using swaymsg to set transparency (Linux/Sway only)"
         }
       }
     },
     "commands": [
       {
-        "command": "glassit.increase",
-        "title": "GlassIt: Increase the transparency"
+        "command": "transparentvsc.increase",
+        "title": "TransparentVSC: Increase transparency"
       },
       {
-        "command": "glassit.decrease",
-        "title": "GlassIt: Decrease the transparency"
+        "command": "transparentvsc.decrease",
+        "title": "TransparentVSC: Decrease transparency"
       },
       {
-        "command": "glassit.maximize",
-        "title": "GlassIt: Maximize the transparency"
+        "command": "transparentvsc.maximize",
+        "title": "TransparentVSC: Maximize transparency"
       },
       {
-        "command": "glassit.minimize",
-        "title": "GlassIt: Minimize the transparency"
+        "command": "transparentvsc.minimize",
+        "title": "TransparentVSC: Minimize transparency (opaque)"
       }
     ],
     "keybindings": [
       {
-        "command": "glassit.increase",
+        "command": "transparentvsc.increase",
         "key": "ctrl+alt+z"
       },
       {
-        "command": "glassit.decrease",
+        "command": "transparentvsc.decrease",
         "key": "ctrl+alt+c"
       },
       {
-        "command": "glassit.minimize",
+        "command": "transparentvsc.minimize",
         "key": "ctrl+alt+x"
       }
     ]

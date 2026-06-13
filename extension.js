@@ -3,14 +3,14 @@ const shell = require('node-powershell');
 
 function activate(context) {
 
-    const config = () => workspace.getConfiguration('glassit');
+    const config = () => workspace.getConfiguration('transparentvsc');
 
     console.log('ctx', process.platform);
     if (process.platform == 'win32') {
         const path = context.asAbsolutePath('./SetTransparency.cs');
 
-        // Pfad als UTF-16LE Base64 encoden damit Sonderzeichen (ä, ö, ü, ...)
-        // sicher an PowerShell übergeben werden können
+        // Encode path as UTF-16LE Base64 so non-ASCII characters (ä, ö, ü, ...)
+        // in Windows usernames are passed correctly to PowerShell
         const pathBase64 = Buffer.from(path, 'utf16le').toString('base64');
 
         const ps = new shell({
@@ -32,13 +32,34 @@ function activate(context) {
             ps.addCommand(`[GlassIt.SetTransParency]::SetTransParency(${process.pid}, ${alpha})`);
             ps.invoke().then(res => {
                 console.log(res);
-                console.log(`GlassIt: set alpha ${alpha}`);
+                console.log(`TransparentVSC: set alpha ${alpha}`);
                 config().update('alpha', alpha, true);
             }).catch(err => {
                 console.error(err);
-                window.showErrorMessage(`GlassIt Error: ${err}`);
+                window.showErrorMessage(`TransparentVSC Error: ${err}`);
             });
         }
+
+        context.subscriptions.push(commands.registerCommand('transparentvsc.increase', () => {
+            const alpha = config().get('alpha') - config().get('step');
+            setAlpha(alpha);
+        }));
+
+        context.subscriptions.push(commands.registerCommand('transparentvsc.decrease', () => {
+            const alpha = config().get('alpha') + config().get('step');
+            setAlpha(alpha);
+        }));
+
+        context.subscriptions.push(commands.registerCommand('transparentvsc.maximize', () => {
+            setAlpha(1);
+        }));
+
+        context.subscriptions.push(commands.registerCommand('transparentvsc.minimize', () => {
+            setAlpha(255);
+        }));
+
+        const alpha = config().get('alpha');
+        setAlpha(alpha);
 
     } else if (process.platform == 'linux') {
 
@@ -49,7 +70,7 @@ function activate(context) {
             try {
                 cp.spawnSync('which xprop').toString();
             } catch (error) {
-                console.error(`GlassIt Error: Please install xprop package to use GlassIt.`);
+                console.error(`TransparentVSC Error: Please install xprop package to use TransparentVSC.`);
                 return;
             }
 
@@ -86,54 +107,54 @@ function activate(context) {
                 console.log(`In force_sway mode...`);
                 cp.exec(`swaymsg opacity ${(alpha / 255).toFixed(2)}`, function (error, stdout, stderr) {
                     if (error) {
-                        console.error(`GlassIt error: ${error}`);
+                        console.error(`TransparentVSC error: ${error}`);
                         return;
                     }
                     console.log(stdout.toString());
-                    console.log(`GlassIt: set alpha ${alpha}`);
+                    console.log(`TransparentVSC: set alpha ${alpha}`);
                     config().update('alpha', alpha, true);
                 });
             } else {
                 for (const codeWindowId of codeWindowIds) {
                     cp.exec(`xprop -id ${codeWindowId} -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY $(printf 0x%x $((0xffffffff * ${alpha} / 255)))`, function (error, stdout, stderr) {
                         if (error) {
-                            console.error(`GlassIt error: ${error}`);
+                            console.error(`TransparentVSC error: ${error}`);
                             return;
                         }
                         console.log(stdout.toString());
-                        console.log(`GlassIt: set alpha ${alpha}`);
+                        console.log(`TransparentVSC: set alpha ${alpha}`);
                         config().update('alpha', alpha, true);
                     });
                 }
             }
         }
 
+        context.subscriptions.push(commands.registerCommand('transparentvsc.increase', () => {
+            const alpha = config().get('alpha') - config().get('step');
+            setAlpha(alpha);
+        }));
+
+        context.subscriptions.push(commands.registerCommand('transparentvsc.decrease', () => {
+            const alpha = config().get('alpha') + config().get('step');
+            setAlpha(alpha);
+        }));
+
+        context.subscriptions.push(commands.registerCommand('transparentvsc.maximize', () => {
+            setAlpha(1);
+        }));
+
+        context.subscriptions.push(commands.registerCommand('transparentvsc.minimize', () => {
+            setAlpha(255);
+        }));
+
+        const alpha = config().get('alpha');
+        setAlpha(alpha);
+
     } else {
         return;
     }
 
-    console.log('Congratulations, your extension "GlassIt VSC" is now active!');
-
-    context.subscriptions.push(commands.registerCommand('glassit.increase', () => {
-        const alpha = config().get('alpha') - config().get('step');
-        setAlpha(alpha);
-    }));
-
-    context.subscriptions.push(commands.registerCommand('glassit.decrease', () => {
-        const alpha = config().get('alpha') + config().get('step');
-        setAlpha(alpha);
-    }));
-
-    context.subscriptions.push(commands.registerCommand('glassit.maximize', () => {
-        setAlpha(1);
-    }));
-
-    context.subscriptions.push(commands.registerCommand('glassit.minimize', () => {
-        setAlpha(255);
-    }));
-
-    const alpha = config().get('alpha');
-    setAlpha(alpha);
+    console.log('TransparentVSC is now active!');
 }
 exports.activate = activate;
 
