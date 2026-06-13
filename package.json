@@ -1,0 +1,88 @@
+{
+  "name": "transparentvsc",
+  "displayName": "TransparentVSC",
+  "description": "Set VS Code window transparency on Windows and Linux. Maintained fork of GlassIt-VSC with Unicode path support.",
+  "version": "0.3.0",
+  "publisher": "tris09",
+  "license": "MIT",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.40.0"
+  },
+  "extensionKind": [
+    "ui"
+  ],
+  "categories": [
+    "Themes",
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tris09/TransparentVSC.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tris09/TransparentVSC/issues"
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "configuration": {
+      "title": "TransparentVSC",
+      "properties": {
+        "transparentvsc.alpha": {
+          "type": "integer",
+          "default": 220,
+          "description": "Transparency level [1-255]"
+        },
+        "transparentvsc.step": {
+          "type": "integer",
+          "default": 5,
+          "description": "Increment of alpha per keypress"
+        },
+        "transparentvsc.force_sway": {
+          "type": "boolean",
+          "default": false,
+          "description": "Force using swaymsg to set transparency (Linux/Sway only)"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "transparentvsc.increase",
+        "title": "TransparentVSC: Increase transparency"
+      },
+      {
+        "command": "transparentvsc.decrease",
+        "title": "TransparentVSC: Decrease transparency"
+      },
+      {
+        "command": "transparentvsc.maximize",
+        "title": "TransparentVSC: Maximize transparency"
+      },
+      {
+        "command": "transparentvsc.minimize",
+        "title": "TransparentVSC: Minimize transparency (opaque)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "transparentvsc.increase",
+        "key": "ctrl+alt+z"
+      },
+      {
+        "command": "transparentvsc.decrease",
+        "key": "ctrl+alt+c"
+      },
+      {
+        "command": "transparentvsc.minimize",
+        "key": "ctrl+alt+x"
+      }
+    ]
+  },
+  "scripts": {},
+  "dependencies": {
+    "node-powershell": "^4.0.0"
+  }
+}
